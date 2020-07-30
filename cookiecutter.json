@@ -1,0 +1,7 @@
+{
+    "app_name": "name",
+    "company_name": "company",
+    "_copy_without_render": [
+        "*.stencil"
+    ]
+}

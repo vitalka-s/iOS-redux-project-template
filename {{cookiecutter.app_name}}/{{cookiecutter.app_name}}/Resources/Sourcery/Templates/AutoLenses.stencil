@@ -1,0 +1,16 @@
+// swiftlint:disable all
+
+import Foundation
+
+{% for type in types.implementing.AutoLenses %}
+extension {{ type.name }} {
+    enum lens {
+        {% for variable in type.variables|!static|!computed %}
+        static let {{ variable.name }} = Lens<{{ type.name }}, {{ variable.typeName }}>(
+            get: { $0.{{ variable.name }} },
+            set: { part, whole in
+                {{ type.name }}.init({% for argument in type.variables|!static|!computed %}{{ argument.name|replace:"`","" }}: {% if variable.name == argument.name %}part{% else %}whole.{{ argument.name|replace:"`","" }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %})
+        }){% endfor %}
+    }
+}
+{% endfor %}
